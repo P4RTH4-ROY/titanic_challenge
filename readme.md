@@ -1,51 +1,98 @@
-# Titanic Survival Prediction Challenge
+# Flower Classification with CNN
 
-This repository contains my solution for the [Kaggle Titanic Machine Learning Challenge](https://www.kaggle.com/c/titanic), implemented in Google Colab. The goal is to predict which passengers survived the Titanic shipwreck using machine learning.
+This project implements a Convolutional Neural Network (CNN) to classify flower images into 5 categories. The model was developed in Google Colab using TensorFlow/Keras.
 
-## Dataset Overview
+## Dataset
+- **Source**: Custom flower dataset from Google Drive
+- **Classes**: 5 flower types (specific names not shown in notebook)
+- **Images**:
+  - Training: 3,457 images (80% of total)
+  - Validation: 860 images (20% of total)
+- **Preprocessing**:
+  - Resized to 150x150 pixels
+  - Normalized pixel values (0-1 range)
+  - Data augmentation (horizontal flips, 30° rotations, 20% zoom)
 
-The Titanic dataset contains information about 891 passengers aboard the RMS Titanic, including:
+## Model Architecture
+```python
+Sequential([
+    Conv2D(32, (3,3), activation='relu', input_shape=(150, 150, 3)),
+    MaxPooling2D(2,2),
+    Conv2D(64, (3,3), activation='relu'),
+    MaxPooling2D(2,2),
+    Conv2D(128, (3,3), activation='relu'),
+    MaxPooling2D(2,2),
+    Flatten(),
+    Dropout(0.5),
+    Dense(128, activation='relu'),
+    Dense(5, activation='softmax')
+])
 
-- **Demographic features**: Passenger class, Name, Sex, Age, SibSp (siblings/spouses aboard), Parch (parents/children aboard)
-- **Ticket information**: Ticket number, Fare, Cabin, Embarked port
-- **Target variable**: Survival (0 = No, 1 = Yes)
+Total Parameters: 4,828,997
 
-Key characteristics:
-- Contains missing values (particularly in Age and Cabin columns)
-- Mix of numerical and categorical features
-- Imbalanced classes (about 38% survived in training set)
+Optimizer: Adam
 
-## Implementation
+Loss Function: Categorical Crossentropy
 
-### Approach
-- Performed exploratory data analysis (EDA) to understand feature distributions and relationships
-- Engineered new features from existing ones
-- Handled missing values and categorical variables
-- Trained a Random Forest classifier
+Training
+Epochs: 10
 
-### Results
-- Achieved **75% accuracy** on the test set using Random Forest
-- Feature importance analysis revealed that passenger class, sex, and fare were the most predictive features
+Batch Size: 32
 
-## Requirements
-The notebook was developed in Google Colab with:
-- Python 3.x
-- pandas
-- numpy
-- scikit-learn
-- matplotlib/seaborn (for visualization)
+Training Time: ~35 minutes (on Colab GPU)
 
-## How to Use
-1. Open the notebook in Google Colab
-2. Run cells sequentially
-3. The notebook includes comments explaining each step
+Epoch	Train Accuracy	Val Accuracy	Train Loss	Val Loss
+1	29.89%	51.05%	1.5647	1.1632
+5	66.29%	66.40%	0.8872	0.8813
+10	73.22%	69.77%	0.6818	0.8069
+Results
+Final Training Accuracy: 73.22%
 
-## Future Improvements
-- Experiment with other models (e.g., Gradient Boosting, Neural Networks)
-- More sophisticated feature engineering
-- Hyperparameter tuning for better performance
-- Ensemble methods
+Final Validation Accuracy: 69.77%
 
-## Acknowledgments
-- Kaggle for hosting the competition
-- Titanic dataset provided by Kaggle
+Confusion Matrix:
+Confusion Matrix (example placeholder)
+
+Visualization
+Accuracy/Loss curves during training
+
+Confusion matrix
+
+Classification report (precision, recall, f1-score)
+
+Usage
+Open the Google Colab Notebook
+
+Mount Google Drive with dataset at:
+/content/drive/MyDrive/Dataset for Colab/flowers
+
+Run all cells sequentially
+
+Requirements
+Python 3.x
+
+TensorFlow 2.x
+
+Keras
+
+NumPy
+
+Matplotlib
+
+Seaborn
+
+Future Improvements
+Implement transfer learning (VGG16, ResNet)
+
+Add more augmentation techniques
+
+Hyperparameter tuning
+
+Class imbalance handling
+
+Deeper network architecture
+
+Early stopping callbacks
+
+License
+MIT
